@@ -28,6 +28,10 @@ function! bufferline#generate_string()
   return "bufferline#generate_string() is obsolete! Please consult README."
 endfunction
 
+function! bufferline#jump(index)
+  execute('b' . g:index_to_buffer[string(a:index)])
+endfunction
+
 let g:bufferline_status_info = {
       \ 'count': 0,
       \ 'before': '',

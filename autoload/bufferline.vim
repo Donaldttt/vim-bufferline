@@ -4,9 +4,13 @@ let s:updatetime = &updatetime
 " keep track of scrollinf window start
 let s:window_start = 0
 
+" 
+let g:index_to_buffer = {}
+
 function! s:generate_names()
   let names = []
   let i = 1
+  let index = 1
   let last_buffer = bufnr('$')
   let current_buffer = bufnr('%')
   while i <= last_buffer
@@ -32,7 +36,10 @@ function! s:generate_names()
       if !skip
         let name = ''
         if g:bufferline_show_bufnr != 0 && g:bufferline_status_info.count >= g:bufferline_show_bufnr
-          let name =  i . ':'
+          " let name =  i . ':'
+          let name =  index . ':'
+          let g:index_to_buffer[index] = i
+          let index += 1
         endif
         let name .= fname . modified
 
