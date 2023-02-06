@@ -29,7 +29,9 @@ function! bufferline#generate_string()
 endfunction
 
 function! bufferline#jump(index)
-  execute('b' . g:index_to_buffer[string(a:index)])
+  if has_key(g:index_to_buffer, a:index)
+      execute('b' . g:index_to_buffer[a:index])
+  end
 endfunction
 
 let g:bufferline_status_info = {
