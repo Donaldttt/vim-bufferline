@@ -23,6 +23,7 @@ call s:check_defined('g:bufferline_fixed_index', 1)
 call s:check_defined('g:bufferline_solo_highlight', 0)
 call s:check_defined('g:bufferline_excludes', ['\[vimfiler\]'])
 call s:check_defined('g:bufferline_pathshorten', 0)
+call s:check_defined('g:bufferline_max_length', &columns - 10)
 
 function! bufferline#generate_string()
   return "bufferline#generate_string() is obsolete! Please consult README."

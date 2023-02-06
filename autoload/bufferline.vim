@@ -74,14 +74,35 @@ function! bufferline#get_echo_string()
 
   let names = s:generate_names()
   let line = ''
+  let length = 0
+  let active_buffer_pos = 0
+  let active_buffer_len = 0
   for val in names
     let line .= val[1]
+    if val[0] == current
+      let active_buffer_pos = length
+      let active_buffer_len = len(val[1])
+    endif
+    let length += len(val[1])
   endfor
 
+  if length > g:bufferline_max_length
+      if active_buffer_pos + g:bufferline_max_length > length
+          let start = length - g:bufferline_max_length
+          let line = '... ' . strpart(line, start + 4, start + g:bufferline_max_length - 4)
+      elseif active_buffer_pos - g:bufferline_max_length < 0
+          let start = 0
+          let line = strpart(line, start, start + g:bufferline_max_length - 4) . ' ...'
+      else
+          let start = active_buffer_pos - (g:bufferline_max_length / 2)
+          let line = '... ' . strpart(line, start + 4, start + g:bufferline_max_length - 4) . ' ...'
+      endif 
+  endif
   let index = match(line, '\V'.g:bufferline_status_info.current)
   let g:bufferline_status_info.count = len(names)
   let g:bufferline_status_info.before = strpart(line, 0, index)
   let g:bufferline_status_info.after = strpart(line, index + len(g:bufferline_status_info.current))
+
   return line
 endfunction
 
