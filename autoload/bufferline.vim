@@ -13,6 +13,7 @@ function! s:generate_names()
   let index = 1
   let last_buffer = bufnr('$')
   let current_buffer = bufnr('%')
+  let g:index_to_buffer = {}
   while i <= last_buffer
     if bufexists(i) && buflisted(i)
       let modified = ' '
