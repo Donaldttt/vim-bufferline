@@ -37,12 +37,13 @@ function! s:generate_names()
       if !skip
         let name = ''
         if g:bufferline_show_bufnr != 0 && g:bufferline_status_info.count >= g:bufferline_show_bufnr
-          " let name =  i . ':'
-          let name =  index . ':'
-          let g:index_to_buffer[index] = i
-          let index += 1
+           let name =  i . ':'
+           let name =  index . ':'
         endif
         let name .= fname . modified
+
+        let g:index_to_buffer[index] = i
+        let index += 1
 
         if current_buffer == i
           let name = g:bufferline_active_buffer_left . name . g:bufferline_active_buffer_right
@@ -88,16 +89,24 @@ function! bufferline#get_echo_string()
   endfor
 
   if length > g:bufferline_max_length
-      if active_buffer_pos + g:bufferline_max_length > length
-          let start = length - g:bufferline_max_length
-          let line = '... ' . strpart(line, start + 4, start + g:bufferline_max_length - 4)
-      elseif active_buffer_pos - g:bufferline_max_length < 0
-          let start = 0
-          let line = strpart(line, start, start + g:bufferline_max_length - 4) . ' ...'
+      let half = g:bufferline_max_length / 2
+      let start = active_buffer_pos + (active_buffer_len / 2) - half
+      let end = active_buffer_pos + (active_buffer_len / 2) + half
+
+      if start < 0
+        let end = end - start
+        let start = 0
+
+        let line = strpart(line, start, end - 4 - start) . ' ...'
+      elseif end > length
+        let start = start - end + length
+        let end = length
+
+        let line = '... ' . strpart(line, start + 4, end - start - 4)
       else
-          let start = active_buffer_pos - (g:bufferline_max_length / 2)
-          let line = '... ' . strpart(line, start + 4, start + g:bufferline_max_length - 4) . ' ...'
-      endif 
+        let line = '... ' . strpart(line, start + 4, end - 8 - start) . ' ...'
+      endif
+
   endif
   let index = match(line, '\V'.g:bufferline_status_info.current)
   let g:bufferline_status_info.count = len(names)
