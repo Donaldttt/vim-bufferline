@@ -88,6 +88,7 @@ function! bufferline#get_echo_string()
     let length += len(val[1])
   endfor
 
+  let g:bufferline_max_length = &columns - g:bufferline_forbided_col
   if length > g:bufferline_max_length
       let half = g:bufferline_max_length / 2
       let start = active_buffer_pos + (active_buffer_len / 2) - half
