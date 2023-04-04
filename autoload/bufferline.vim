@@ -70,9 +70,9 @@ endfunction
 function! bufferline#get_echo_string()
   " check for special cases like help files
   let current = bufnr('%')
-  if !bufexists(current) || !buflisted(current)
-    return bufname('%')
-  endif
+  " if !bufexists(current) || !buflisted(current)
+  "   return bufname('%')
+  " endif
 
   let names = s:generate_names()
   let line = ''
