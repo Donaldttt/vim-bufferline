@@ -16,9 +16,12 @@ function! s:generate_names()
   let g:index_to_buffer = {}
   while i <= last_buffer
     if bufexists(i) && buflisted(i)
-      let modified = ' '
-      if getbufvar(i, '&mod')
-        let modified = g:bufferline_modified
+      let modified = ''
+      if g:bufferline_modified != ''
+        let modified = ' '
+        if getbufvar(i, '&mod')
+          let modified = g:bufferline_modified
+        endif
       endif
       let fname = fnamemodify(bufname(i), g:bufferline_fname_mod)
       if g:bufferline_pathshorten != 0

@@ -27,7 +27,8 @@ values):
   let g:bufferline_active_buffer_right = ']'
 <
 
-* the symbol to denote that a buffer is modified
+* the symbol to denote that a buffer is modified (setting this to '' will
+  remove denote placeholder for unchanged buffer)
 >
   let g:bufferline_modified = '+'
 <
